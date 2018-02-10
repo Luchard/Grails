@@ -1,8 +1,9 @@
 package projetpoiss
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
-
+@Secured('isAuthenticated()')
 class GroupeController {
 
     GroupeService groupeService
@@ -16,6 +17,7 @@ class GroupeController {
 
     def show(Long id) {
         respond groupeService.get(id)
+        [groupe: Groupe.get(params.id)]
     }
 
     def create() {
@@ -46,6 +48,7 @@ class GroupeController {
 
     def edit(Long id) {
         respond groupeService.get(id)
+        [groupe: Groupe.get(params.id)]
     }
 
     def update(Groupe groupe) {

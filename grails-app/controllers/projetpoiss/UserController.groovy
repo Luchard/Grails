@@ -1,8 +1,9 @@
 package projetpoiss
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
-
+@Secured('isAuthenticated()')
 class UserController {
 
     UserService userService
@@ -10,18 +11,33 @@ class UserController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+       // User user=sec.loggedInUserInfo(null);
         params.max = Math.min(max ?: 10, 100)
         respond userService.list(params), model:[userCount: userService.count()]
+       // if(user.authorities.any{it.authority  == "ROLE_ADMIN"}) {
+         //   respond userService.list(params), model: [userCount: userService.count()]
+        //}
+        //if(user.authorities.any{it.authority == "ROLE_MODERATOR"}) {
+          //  respond userService.list(params), model: [userCount: userService.count()]
+        //}
     }
 
     def show(Long id) {
         respond userService.get(id)
+        [user: User.get(params.id)]
     }
 
+    def handleLogin = {
+
+    }
+
+    @Secured('permitAll')
     def create() {
         respond new User(params)
     }
 
+
+    @Secured(value = ["hasRole('ROLE_ADMIN')"])
     def save(User user) {
         if (user == null) {
             notFound()
@@ -30,6 +46,7 @@ class UserController {
 
         try {
             userService.save(user)
+
         } catch (ValidationException e) {
             respond user.errors, view:'create'
             return
@@ -46,6 +63,7 @@ class UserController {
 
     def edit(Long id) {
         respond userService.get(id)
+        [user: User.get(params.id)]
     }
 
     def update(User user) {

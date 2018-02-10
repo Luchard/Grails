@@ -1,8 +1,9 @@
 package projetpoiss
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
-
+@Secured('isAuthenticated()')
 class RoleController {
 
     RoleService roleService
@@ -17,6 +18,7 @@ class RoleController {
 
     def show(Long id) {
         respond roleService.get(id)
+        [role: Role.get(params.id)]
     }
 
     def create() {
@@ -47,6 +49,7 @@ class RoleController {
 
     def edit(Long id) {
         respond roleService.get(id)
+        [role: Role.get(params.id)]
     }
 
     def update(Role role) {

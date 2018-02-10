@@ -95,7 +95,7 @@ hibernate:
 
     dataSource :
         pooled : true
-        dbCreate : "create-drop"
+        dbCreate : "update"
         url : "jdbc:mysql://localhost:3306/projetpoi"
         driverClassName : "com.mysql.jdbc.Driver"
         dialect : org.hibernate.dialect.MySQL5InnoDBDialect
@@ -126,7 +126,7 @@ environments:
     development:
         dataSource :
                 pooled : true
-                dbCreate : "create-drop"
+                dbCreate : "update"
                 url : "jdbc:mysql://localhost:3306/projetpoi"
                 driverClassName : "com.mysql.jdbc.Driver"
                 dialect : org.hibernate.dialect.MySQL5InnoDBDialect
@@ -176,3 +176,9 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+spring:
+    http:
+        multipart:
+            max-file-size: 100MB
+            max-request-size: 100MB

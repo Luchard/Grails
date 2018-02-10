@@ -1,13 +1,19 @@
 package projetpoiss
 
 import grails.validation.ValidationException
+import org.springframework.web.multipart.MultipartHttpServletRequest
+import org.springframework.web.multipart.commons.CommonsMultipartFile
+
 import static org.springframework.http.HttpStatus.*
 
 class ImageController {
 
     ImageService imageService
+    Image imgSrc
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    //static allowedActions = ['show','index','list','create','save' , 'login','validate','edit','viewImage']
+    public ImageController ( ) { }
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -15,11 +21,23 @@ class ImageController {
     }
 
     def show(Long id) {
+
         respond imageService.get(id)
+        [image: Image.get(params.id)]
     }
 
     def create() {
         respond new Image(params)
+    }
+
+def displayGraph = {
+    imgSrc = imageService.get(id)
+    render(file:imgSrc.associatedFile,contentType: 'image/png')
+}
+    def viewImage = {
+        def photo = Image.get(params.id)
+        response.contentType = "image/jpeg"
+        response.outputStream.write(photo?.associatedFile)
     }
 
     def save(Image image) {
@@ -29,7 +47,16 @@ class ImageController {
         }
 
         try {
-            imageService.save(image)
+            if(request instanceof MultipartHttpServletRequest){
+                MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
+                CommonsMultipartFile file = (CommonsMultipartFile)multiRequest.getFile("associatedFile");
+
+                image.fileName = file.originalFilename
+                image.contentType = file.contentType
+               image.associatedFile = file.bytes
+                imageService.save(image)
+            }
+
         } catch (ValidationException e) {
             respond image.errors, view:'create'
             return
@@ -46,6 +73,7 @@ class ImageController {
 
     def edit(Long id) {
         respond imageService.get(id)
+        [image: Image.get(params.id)]
     }
 
     def update(Image image) {

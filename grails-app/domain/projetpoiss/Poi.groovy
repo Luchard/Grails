@@ -9,8 +9,8 @@ class Poi {
 
     static  belongsTo = [ groupes : Groupe]
     static constraints = {
-        desccription nullable: true
         nom nullable: false , unique: true
+        desccription nullable: true
         latitude blank : true
         longitude blank : true
 

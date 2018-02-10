@@ -7,9 +7,11 @@ class Groupe {
 
     static hasMany = [pois : Poi]
     static constraints = {
+        nom nullable: false , unique: true
         description nullable: true
         image nullable: true
-        nom nullable: false , unique: true
+
+
     }
 }
 

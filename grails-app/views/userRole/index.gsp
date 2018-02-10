@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="mainPage" />
         <g:set var="entityName" value="${message(code: 'userRole.label', default: 'UserRole')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
@@ -19,7 +19,7 @@
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
             <f:table collection="${userRoleList}" />
-
+            <f:table collection="${userRoleList}" properties="['user','role']"/>
             <div class="pagination">
                 <g:paginate total="${userRoleCount ?: 0}" />
             </div>

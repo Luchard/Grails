@@ -1,13 +1,15 @@
 package projetpoiss
 
 class Image {
-    String filename
+    String fileName
+    byte[] associatedFile
+    String contentType
 
-    Poi poi
 
     static constraints = {
 
-        poi nullable: true
-        filename unique: true
+
+        fileName unique: true
+
     }
 }

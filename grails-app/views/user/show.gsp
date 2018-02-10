@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="mainPage" />
         <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
@@ -10,16 +10,49 @@
         <div class="nav" role="navigation">
             <ul>
                 <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-                <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+                <li><g:link class="list" action="index">Liste Utilisateur</g:link></li>
+                <li><g:link class="create" action="create">Nouvel Utilisateur</g:link></li>
             </ul>
         </div>
         <div id="show-user" class="content scaffold-show" role="main">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
+            <h1>Détails Utilisateur : ${user.prenom} ${user.nom}  </h1>
             <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:display bean="user" />
+
+            <table>
+
+
+
+<tr>
+    <td>
+        <label> Prénom : </label>
+    </td>
+    <td>
+        <f:display bean="user" property="prenom" displayStyle="table"/>
+    </td>
+</tr>
+            <tr>
+                <td>
+                    <label> Nom : </label>
+                </td>
+                <td>
+                    <f:display bean="user" property="nom" displayStyle="table"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label> Username : </label>
+                </td>
+                <td>
+                    <f:display bean="user" property="username" displayStyle="table"/>
+
+                </td>
+            </tr>
+
+            </table>
+
+
             <g:form resource="${this.user}" method="DELETE">
                 <fieldset class="buttons">
                     <g:link class="edit" action="edit" resource="${this.user}"><g:message code="default.button.edit.label" default="Edit" /></g:link>

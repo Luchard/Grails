@@ -1,8 +1,9 @@
 package projetpoiss
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
-
+@Secured('isAuthenticated()')
 class PoiController {
 
     PoiService poiService
@@ -16,6 +17,7 @@ class PoiController {
 
     def show(Long id) {
         respond poiService.get(id)
+        [poi: Poi.get(params.id)]
     }
 
     def create() {
@@ -46,6 +48,7 @@ class PoiController {
 
     def edit(Long id) {
         respond poiService.get(id)
+        [poi: Poi.get(params.id)]
     }
 
     def update(Poi poi) {
